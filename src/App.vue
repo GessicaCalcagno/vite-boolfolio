@@ -1,14 +1,14 @@
 <script>
-export default{
-
-}
-
+import AppMain from "./components/AppMain.vue";
+export default {
+  components: {
+    AppMain,
+  },
+};
 </script>
 
 <template>
-  <h1>HELLOO</h1>
+  <AppMain />
 </template>
 
-<style>
-
-</style>
+<style lang="scss"></style>
