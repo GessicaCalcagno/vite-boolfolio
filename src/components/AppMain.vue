@@ -1,24 +1,34 @@
 <script>
 import axios from "axios";
+import ProjectCard from "./ProjectCard.vue";
+
 export default {
+  components: {
+    ProjectCard,
+  },
   data() {
     return {
       projects: [],
     };
   },
   created() {
-    axios.get('http://127.0.0.1:8000/api/projects').then((resp) => {
-        // console.log(resp);
-        this.projects = resp.data.results;
+    axios.get("http://127.0.0.1:8000/api/projects").then((resp) => {
+      console.log(resp);
+      this.projects = resp.data.results;
     });
   },
 };
 </script>
 
 <template>
-  
-  
-  
+  <div class="container">
+    <h1>Tutti i miei progetti</h1>
+    <div class="row row-cols-4 g-2">
+      <div class="col" v-for="project in projects">
+        <ProjectCard :project="project" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>
