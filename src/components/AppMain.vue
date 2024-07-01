@@ -9,13 +9,40 @@ export default {
   data() {
     return {
       projects: [],
+      lastPage: 0,
+      curPage: 1,
     };
   },
   created() {
-    axios.get("http://127.0.0.1:8000/api/projects").then((resp) => {
-      console.log(resp);
-      this.projects = resp.data.results;
-    });
+    this.getPosts();
+  },
+  methods: {
+    getPosts() {
+      axios
+        .get(`http://127.0.0.1:8000/api/projects?page=${this.curPage}`)
+        .then((resp) => {
+          console.log(resp);
+          this.projects = resp.data.results.data;
+          // this.projects = resp.data.results aggiungo .data per la paginazione;
+          this.lastPage = resp.data.results.last_page;
+        });
+    },
+    changePage(newPage) {
+      this.curPage = newPage;
+      this.getPosts();
+    },
+    showNext() {
+      if (this.curPage < this.lastPage) {
+        this.curPage++;
+        this.getPosts();
+      }
+    },
+    showPrev() {
+      if (this.curPage > 1) {
+        this.curPage--;
+        this.getPosts();
+      }
+    },
   },
 };
 </script>
@@ -27,6 +54,40 @@ export default {
       <div class="col" v-for="project in projects">
         <ProjectCard :project="project" />
       </div>
+    </div>
+
+    <div class="mt-5 d-flex justify-content-center">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="#"
+              :class="{ disabled: curPage === 1 }"
+              @click.prevent="showPrev()"
+              >Previous</a
+            >
+          </li>
+          <li
+            class="page-item"
+            :class="{ active: page === curPage }"
+            v-for="page in lastPage"
+          >
+            <a class="page-link" href="#" @click.prevent="changePage(page)">{{
+              page
+            }}</a>
+          </li>
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="#"
+              :class="{ disabled: curPage === lastPage }"
+              @click.prevent="showNext()"
+              >Next</a
+            >
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </template>
