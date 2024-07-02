@@ -13,7 +13,8 @@ export default {
 </script>
 
 <template>
-  <div class="card h-100">
+  <!-- invece di anchor tag usiamo :to -->
+  <router-link :to="{name: 'single-project', params: { slug: project.slug }}"  class="card h-100 text-decoration-none">
     <!-- Devo implementarlo lato back end -->
     <!-- <img class="card-image" :src="project.cover_img ? `${imageBaseUrl}/${project.cover_image}` : `https://placehold.co/500x300?text=immagine+non+disponibile` " alt=""> -->
 
@@ -34,7 +35,7 @@ export default {
         >
       </div>
     </div>
-  </div>
+  </router-link>
 
 </template>
 

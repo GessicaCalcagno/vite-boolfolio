@@ -38,7 +38,6 @@ export default {
             :to="{ name: item.routeName }"
             class="nav-link active"
             aria-current="page"
-            href="#"
             >{{ item.title }}</router-link
           >
         </div>
